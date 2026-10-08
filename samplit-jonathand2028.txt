@@ -1,0 +1,11 @@
+import sys
+import random
+
+with open(sys.argv[1]) as f:
+    for line in f:
+<<<<<<< HEAD
+        if random.random() < 0.01: # merge conflict comment
+=======
+        if random.random() < 0.01: ## merge conflict comment
+>>>>>>> hw_1b
+            print(line, end='')
