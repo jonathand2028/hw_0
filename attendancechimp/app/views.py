@@ -43,7 +43,8 @@ def sum_view(request):
     n2 = request.GET.get("n2")
     float_n1 = float(n1)
     float_n2 = float(n2)
-    return JsonResponse({"sum": float_n1 + float_n2})
+    total = round(float_n1 + float_n2, 10)
+    return HttpResponse(f"<p>{total}</p>")
 
 
 # ---------------------------------------------------------------------------
