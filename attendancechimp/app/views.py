@@ -33,6 +33,17 @@ def index(request):
     context = {}
     return render(request, 'app/index.html', context)
 
+def time_view(request):
+    chicago_time = datetime.now(CDT)
+    formatted_chicago_time = chicago_time.strftime("%H:%M")
+    return HttpResponse(formatted_chicago_time)
+
+def sum_view(request):
+    n1 = request.GET.get("n1")
+    n2 = request.GET.get("n2")
+    float_n1 = float(n1)
+    float_n2 = float(n2)
+    return JsonResponse({"sum": float_n1 + float_n2})
 
 
 # ---------------------------------------------------------------------------
