@@ -1,0 +1,11 @@
+My models.py (about 90 lines) is much simpler than ChatGPT's (about 570 lines).
+I only included the classes and relationships that the assignment explicitly
+asked for, while ChatGPT added extras like employee and student IDs, timestamps,
+and additional validation. For the meeting schedule, I used separate days,
+start_time, and end_time fields, while ChatGPT used a single meeting_schedule
+text field. ChatGPT's version is more detailed and complete, and is likely
+closer to what a real, fully usable database would look like, but it also
+requires installing extra packages like Pillow for its ImageField (ChatGPT gave
+install instructions after the code). ChatGPT's file is also almost double the
+roughly 300-line guideline from class, so it would ideally be split into
+multiple files anyway.
