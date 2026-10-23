@@ -78,7 +78,7 @@ class QRCodeUpload(models.Model):
     """A QR code photo uploaded by a student. It can also be linked to a lecture."""
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
     lecture = models.ForeignKey(Lecture, on_delete=models.SET_NULL, null=True, blank=True)
-    image = models.CharField(max_length=255)
+    image = models.FileField(upload_to="qr_uploads/")
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
 # ---------------------------------------------------------------------------
