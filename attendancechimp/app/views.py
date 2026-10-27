@@ -19,6 +19,7 @@ import io
 # from .models import (InstructorProfile, StudentProfile, Course, Enrollment,
 #                      Lecture, QRCodeUpload, is_instructor, is_student,
 #                      getUploadsForCourse)
+from .models import StudentProfile, InstructorProfile
 
 CDT = zoneinfo.ZoneInfo("America/Chicago")
 
@@ -29,8 +30,8 @@ CDT = zoneinfo.ZoneInfo("America/Chicago")
 
 def index(request):
     """Render the home page (index.html)."""
-
-    context = {}
+    current_time = datetime.now(CDT).strftime("%H:%M")
+    context = {"time": current_time, "user": request.user}
     return render(request, 'app/index.html', context)
 
 def time_view(request):
@@ -50,9 +51,38 @@ def sum_view(request):
 # ---------------------------------------------------------------------------
 # HW4  — user creation
 # ---------------------------------------------------------------------------
+def new(request):
+    """Show the sign-up form. Only GET is allowed."""
+    if request.method != "GET":
+        return HttpResponseBadRequest("Only GET allowed")
+    return render(request, 'app/new.html')
 
+@csrf_exempt
+def createUser(request):
+    """Create a new user and student/instructor profile from POST data."""
+    if request.method != "POST":
+        return HttpResponseBadRequest("Only POST allowed")
 
+    user_name = request.POST.get("user_name")
+    email = request.POST.get("email")
+    password = request.POST.get("password")
+    is_student = request.POST.get("is_student")
 
+    if User.objects.filter(email=email).exists():
+        return HttpResponseBadRequest("Email already in use")
+
+    if User.objects.filter(username=user_name).exists():
+        return HttpResponseBadRequest("Username already in use")
+
+    user = User.objects.create_user(username=user_name, email=email, password=password)
+
+    if is_student == "1":
+        StudentProfile.objects.create(user=user)
+    else:
+        InstructorProfile.objects.create(user=user)
+
+    login(request, user)
+    return HttpResponse("User created", status=200)
 # ---------------------------------------------------------------------------
 # HW5  — courses, lectures, QR uploads, dump
 # ---------------------------------------------------------------------------
